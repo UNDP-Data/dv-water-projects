@@ -110,11 +110,11 @@ function App() {
       {worldShape && rawData && dataGroupedByCountry && countryTaxonomy ? (
         <div>
           <div className='stat-card-container margin-bottom-07'>
-            <div className='stat-card' style={{ width: '33.33%' }}>
+            <div className='stat-card no-hover' style={{ width: '33.33%' }}>
               <h3>{rawData.length}</h3>
               <p>No. of Projects</p>
             </div>
-            <div className='stat-card' style={{ width: '33.33%' }}>
+            <div className='stat-card no-hover' style={{ width: '33.33%' }}>
               <h3>
                 {format('.3s')(sumBy(rawData, el => el.Budget)).replace(
                   'G',
@@ -124,7 +124,7 @@ function App() {
               <h4>US $</h4>
               <p>Total Budget</p>
             </div>
-            <div className='stat-card' style={{ width: '33.33%' }}>
+            <div className='stat-card no-hover' style={{ width: '33.33%' }}>
               <h3>
                 {format('.3s')(
                   sumBy(rawData, el => el['EXPENSES without minos']),

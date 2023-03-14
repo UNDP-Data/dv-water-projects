@@ -61,8 +61,8 @@ export function UnivariateMap(props: Props) {
   const mapG = useRef<SVGGElement>(null);
   const projection = geoMercator()
     .rotate([0, 0])
-    .scale(125)
-    .translate([475, 350]);
+    .scale(160)
+    .translate([475, 285]);
   const valueArray =
     selectedOption === 'No. of Projects'
       ? [2, 5, 7, 10, 15]
@@ -85,7 +85,7 @@ export function UnivariateMap(props: Props) {
     const mapGSelect = select(mapG.current);
     const mapSvgSelect = select(mapSvg.current);
     const zoomBehavior = zoom()
-      .scaleExtent([1, 12])
+      .scaleExtent([0.7, 12])
       .translateExtent([
         [-20, 0],
         [svgWidth + 20, svgHeight],
