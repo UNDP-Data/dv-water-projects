@@ -48,10 +48,10 @@ const SettingEl = styled.div`
 export function MapArea(props: Props) {
   const { data, worldShape, countryTaxonomy } = props;
   const [selectedOption, setSelectedOption] = useState<
-    'No. of Projects' | 'Budget' | 'Expenses'
+    'No. of Projects' | 'Budget'
   >('No. of Projects');
 
-  const options = ['No. of Projects', 'Budget', 'Expenses'];
+  const options = ['No. of Projects', 'Budget'];
 
   return (
     <El id='graph-node'>
