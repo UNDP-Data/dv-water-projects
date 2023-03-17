@@ -87,6 +87,12 @@ export function Tooltip(props: Props) {
           US$ {data.budget === undefined ? 'N/A' : formatData(data.budget)}
         </span>
       </p>
+      <p className='undp-typography margin-bottom-05'>
+        Total expenses:{' '}
+        <span className='bold'>
+          US$ {data.expenses === undefined ? 'N/A' : formatData(data.expenses)}
+        </span>
+      </p>
     </TooltipEl>
   );
 }

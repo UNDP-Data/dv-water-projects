@@ -53,9 +53,8 @@ function App() {
           const dataFormatted: FormattedDataType[] = data.map(d => ({
             ...d,
             Budget: +d.Budget,
-            'Expences from BPI': +d['Expences from BPI'],
             'EXPENSES without minos': +d['EXPENSES without minos'],
-            'Country TRANSPARENCY': d['Country TRANSPARENCY'].split(','),
+            'Country TRANSPARENCY': d['Country TRANSPARENCY'].split('; '),
           }));
           const dataSplitByCountries: DataSplitByCountriesType[] = [];
           dataFormatted.forEach(d => {
@@ -64,8 +63,6 @@ function App() {
                 ...d,
                 'Country TRANSPARENCY': el,
                 Budget: d.Budget / d['Country TRANSPARENCY'].length,
-                'Expences from BPI':
-                  d['Expences from BPI'] / d['Country TRANSPARENCY'].length,
                 'EXPENSES without minos':
                   d['EXPENSES without minos'] /
                   d['Country TRANSPARENCY'].length,
@@ -83,10 +80,6 @@ function App() {
             );
             const noOfProjects = dataFilteredByCountry.length;
             const totalBudget = sumBy(dataFilteredByCountry, el => el.Budget);
-            const totalExpenseFromPBI = sumBy(
-              dataFilteredByCountry,
-              el => el['Expences from BPI'],
-            );
             const totalExpenseWithoutMinos = sumBy(
               dataFilteredByCountry,
               el => el['EXPENSES without minos'],
@@ -95,7 +88,6 @@ function App() {
               country,
               noOfProjects,
               totalBudget,
-              totalExpenseFromPBI,
               totalExpenseWithoutMinos,
             };
           });
@@ -110,11 +102,11 @@ function App() {
       {worldShape && rawData && dataGroupedByCountry && countryTaxonomy ? (
         <div>
           <div className='stat-card-container margin-bottom-07'>
-            <div className='stat-card no-hover' style={{ width: '50%' }}>
+            <div className='stat-card no-hover' style={{ width: '33.33%' }}>
               <h3>{rawData.length}</h3>
               <p>No. of Projects</p>
             </div>
-            <div className='stat-card no-hover' style={{ width: '50%' }}>
+            <div className='stat-card no-hover' style={{ width: '33.33%' }}>
               <h3>
                 {format('.3s')(sumBy(rawData, el => el.Budget)).replace(
                   'G',
@@ -123,6 +115,15 @@ function App() {
               </h3>
               <h4>US $</h4>
               <p>Total Budget</p>
+            </div>
+            <div className='stat-card no-hover' style={{ width: '33.33%' }}>
+              <h3>
+                {format('.3s')(
+                  sumBy(rawData, el => el['EXPENSES without minos']),
+                ).replace('G', 'B')}
+              </h3>
+              <h4>US $</h4>
+              <p>Total Expenses</p>
             </div>
           </div>
           <MapArea

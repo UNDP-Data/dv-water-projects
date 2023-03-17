@@ -22,6 +22,8 @@ export interface DataType {
   'Transparency Portal': string;
   'Country TRANSPARENCY': string;
   Budget: string;
+  'Expences from BPI': string;
+  'EXPENSES without minos': string;
 }
 
 export interface FormattedDataType {
@@ -31,6 +33,7 @@ export interface FormattedDataType {
   'Transparency Portal': string;
   'Country TRANSPARENCY': string[];
   Budget: number;
+  'EXPENSES without minos': number;
 }
 
 export interface DataSplitByCountriesType {
@@ -40,18 +43,21 @@ export interface DataSplitByCountriesType {
   'Transparency Portal': string;
   'Country TRANSPARENCY': string;
   Budget: number;
+  'EXPENSES without minos': number;
 }
 
 export interface DataGroupedByCountryType {
   country: string;
   noOfProjects: number;
   totalBudget: number;
+  totalExpenseWithoutMinos: number;
 }
 
 export interface HoverDataType {
   country: string;
   continent: string;
   budget?: number;
+  expenses?: number;
   noOfProjects?: number;
   xPosition: number;
   yPosition: number;

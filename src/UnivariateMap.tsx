@@ -16,7 +16,7 @@ import { Tooltip } from './Tooltip';
 
 interface Props {
   data: DataGroupedByCountryType[];
-  selectedOption: 'No. of Projects' | 'Budget';
+  selectedOption: 'No. of Projects' | 'Budget' | 'Expenses';
   worldShape: any;
   countryTaxonomy: CountryGroupDataType[];
 }
@@ -66,10 +66,12 @@ export function UnivariateMap(props: Props) {
   const valueArray =
     selectedOption === 'No. of Projects'
       ? [2, 5, 7, 10, 15]
-      : [
+      : selectedOption === 'Budget'
+      ? [
           1000000, 5000000, 10000000, 25000000, 50000000, 75000000, 100000000,
           250000000,
-        ];
+        ]
+      : [1000000, 5000000, 10000000, 25000000, 50000000, 75000000, 100000000];
   const colorArray =
     selectedOption === 'No. of Projects'
       ? UNDPColorModule.sequentialColors.neutralColorsx06
@@ -173,7 +175,11 @@ export function UnivariateMap(props: Props) {
               (el: any) => d.country === el.properties.ISO3,
             );
             const indicator =
-              selectedOption === 'Budget' ? 'totalBudget' : 'noOfProjects';
+              selectedOption === 'Budget'
+                ? 'totalBudget'
+                : selectedOption === 'Expenses'
+                ? 'totalExpenseWithoutMinos'
+                : 'noOfProjects';
             const val = d[indicator];
             const color = val ? colorScale(val) : UNDPColorModule.graphNoData;
 
@@ -199,6 +205,7 @@ export function UnivariateMap(props: Props) {
                       ]['Group 1'],
                     noOfProjects: d.noOfProjects,
                     budget: d.totalBudget,
+                    expenses: d.totalExpenseWithoutMinos,
                     xPosition: event.clientX,
                     yPosition: event.clientY,
                   });
@@ -219,6 +226,7 @@ export function UnivariateMap(props: Props) {
                       ]['Group 1'],
                     noOfProjects: d.noOfProjects,
                     budget: d.totalBudget,
+                    expenses: d.totalExpenseWithoutMinos,
                     xPosition: event.clientX,
                     yPosition: event.clientY,
                   });
