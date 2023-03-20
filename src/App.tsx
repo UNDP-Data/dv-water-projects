@@ -93,7 +93,14 @@ function App() {
           });
           setRawData(dataFormatted);
           setCountryTaxonomy(countryTaxonomyData);
-          setDataGroupedByCountry(groupedByCountry);
+          setDataGroupedByCountry(
+            groupedByCountry.filter(
+              d =>
+                countryTaxonomyData.findIndex(
+                  el => el['Alpha-3 code-1'] === d.country,
+                ) !== -1,
+            ),
+          );
         },
       );
   }, []);
@@ -101,12 +108,16 @@ function App() {
     <div className='undp-container'>
       {worldShape && rawData && dataGroupedByCountry && countryTaxonomy ? (
         <div>
-          <div className='stat-card-container margin-bottom-07'>
-            <div className='stat-card no-hover' style={{ width: '50%' }}>
+          <div className='stat-card-container margin-bottom-05'>
+            <div className='stat-card no-hover' style={{ width: '33.33%' }}>
               <h3>{rawData.length}</h3>
               <p>No. of Projects</p>
             </div>
-            <div className='stat-card no-hover' style={{ width: '50%' }}>
+            <div className='stat-card no-hover' style={{ width: '33.33%' }}>
+              <h3>{dataGroupedByCountry.length}</h3>
+              <p>No. of countries with water related projects</p>
+            </div>
+            <div className='stat-card no-hover' style={{ width: '33.33%' }}>
               <h3>
                 {format('.3s')(sumBy(rawData, el => el.Budget)).replace(
                   'G',
