@@ -33,7 +33,7 @@ function App() {
       )
       .defer(
         csv,
-        'https://raw.githubusercontent.com/UNDP-Data/dv-water-project-data/main/water-related-projects.csv',
+        'https://raw.githubusercontent.com/UNDP-Data/dv-water-project-data/update-data/water-related-projects.csv',
       )
       .defer(
         json,
@@ -52,7 +52,7 @@ function App() {
           setWorldShape(worldShapeData);
           const dataFormatted: FormattedDataType[] = data.map(d => ({
             ...d,
-            Budget: +d.Budget,
+            Budget: d.Budget ? +d.Budget : 0,
             'EXPENSES without minos': +d['EXPENSES without minos'],
             'Country TRANSPARENCY': d['Country TRANSPARENCY'].split('; '),
           }));
