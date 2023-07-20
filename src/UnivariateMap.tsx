@@ -8,6 +8,7 @@ import { select } from 'd3-selection';
 import { scaleThreshold } from 'd3-scale';
 import { useEffect, useRef, useState } from 'react';
 import {
+  CategoriesDataType,
   CountryGroupDataType,
   DataGroupedByCountryType,
   HoverDataType,
@@ -19,6 +20,7 @@ interface Props {
   selectedOption: 'No. of Projects' | 'Budget' | 'Expenses';
   worldShape: any;
   countryTaxonomy: CountryGroupDataType[];
+  filter: CategoriesDataType;
 }
 
 const LegendEl = styled.div`
@@ -40,7 +42,7 @@ const G = styled.g`
 `;
 
 export function UnivariateMap(props: Props) {
-  const { data, countryTaxonomy, worldShape, selectedOption } = props;
+  const { data, countryTaxonomy, worldShape, selectedOption, filter } = props;
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined,
   );
@@ -180,7 +182,7 @@ export function UnivariateMap(props: Props) {
                 : selectedOption === 'Expenses'
                 ? 'totalExpenseWithoutMinos'
                 : 'noOfProjects';
-            const val = d[indicator];
+            const val = d[indicator][filter];
             const color = val ? colorScale(val) : UNDPColorModule.graphNoData;
 
             return (
@@ -203,9 +205,9 @@ export function UnivariateMap(props: Props) {
                           el => el['Alpha-3 code-1'] === d.country,
                         )
                       ]['Group 1'],
-                    noOfProjects: d.noOfProjects,
-                    budget: d.totalBudget,
-                    expenses: d.totalExpenseWithoutMinos,
+                    noOfProjects: d.noOfProjects[filter],
+                    budget: d.totalBudget[filter],
+                    expenses: d.totalExpenseWithoutMinos[filter],
                     xPosition: event.clientX,
                     yPosition: event.clientY,
                   });
@@ -224,9 +226,9 @@ export function UnivariateMap(props: Props) {
                           el => el['Alpha-3 code-1'] === d.country,
                         )
                       ]['Group 1'],
-                    noOfProjects: d.noOfProjects,
-                    budget: d.totalBudget,
-                    expenses: d.totalExpenseWithoutMinos,
+                    noOfProjects: d.noOfProjects[filter],
+                    budget: d.totalBudget[filter],
+                    expenses: d.totalExpenseWithoutMinos[filter],
                     xPosition: event.clientX,
                     yPosition: event.clientY,
                   });

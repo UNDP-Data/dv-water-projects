@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react';
 import uniqBy from 'lodash.uniqby';
 import sumBy from 'lodash.sumby';
 import { format } from 'd3-format';
+import { Select } from 'antd';
 import {
   CountryGroupDataType,
   DataType,
   FormattedDataType,
   DataGroupedByCountryType,
   DataSplitByCountriesType,
+  CategoriesDataType,
 } from './Types';
 import { MapArea } from './MapArea';
 
@@ -25,6 +27,7 @@ function App() {
   const [dataGroupedByCountry, setDataGroupedByCountry] = useState<
     undefined | DataGroupedByCountryType[]
   >(undefined);
+  const [filter, setFilter] = useState<CategoriesDataType>('All');
   useEffect(() => {
     queue()
       .defer(
@@ -55,6 +58,7 @@ function App() {
             Budget: d.Budget ? +d.Budget : 0,
             'EXPENSES without minos': +d['EXPENSES without minos'],
             'Country TRANSPARENCY': d['Country TRANSPARENCY'].split('; '),
+            All: 'Y',
           }));
           const dataSplitByCountries: DataSplitByCountriesType[] = [];
           dataFormatted.forEach(d => {
@@ -79,16 +83,64 @@ function App() {
               el => el['Country TRANSPARENCY'] === d,
             );
             const noOfProjects = dataFilteredByCountry.length;
+            const noOfProjectsAWOnly = dataFilteredByCountry.filter(
+              el => el.AW === 'Y',
+            ).length;
+            const noOfProjectsWQOnly = dataFilteredByCountry.filter(
+              el => el.WQ === 'Y',
+            ).length;
+            const noOfProjectsWSOnly = dataFilteredByCountry.filter(
+              el => el.WS === 'Y',
+            ).length;
             const totalBudget = sumBy(dataFilteredByCountry, el => el.Budget);
             const totalExpenseWithoutMinos = sumBy(
               dataFilteredByCountry,
               el => el['EXPENSES without minos'],
             );
+            const totalBudgetAWOnly = sumBy(
+              dataFilteredByCountry.filter(el => el.AW === 'Y'),
+              el => el.Budget,
+            );
+            const totalExpenseWithoutMinosAWOnly = sumBy(
+              dataFilteredByCountry.filter(el => el.AW === 'Y'),
+              el => el['EXPENSES without minos'],
+            );
+            const totalBudgetWQOnly = sumBy(
+              dataFilteredByCountry.filter(el => el.WQ === 'Y'),
+              el => el.Budget,
+            );
+            const totalExpenseWithoutMinosWQOnly = sumBy(
+              dataFilteredByCountry.filter(el => el.WQ === 'Y'),
+              el => el['EXPENSES without minos'],
+            );
+            const totalBudgetWSOnly = sumBy(
+              dataFilteredByCountry.filter(el => el.WS === 'Y'),
+              el => el.Budget,
+            );
+            const totalExpenseWithoutMinosWSOnly = sumBy(
+              dataFilteredByCountry.filter(el => el.WS === 'Y'),
+              el => el['EXPENSES without minos'],
+            );
             return {
               country,
-              noOfProjects,
-              totalBudget,
-              totalExpenseWithoutMinos,
+              noOfProjects: {
+                All: noOfProjects,
+                AW: noOfProjectsAWOnly,
+                WS: noOfProjectsWSOnly,
+                WQ: noOfProjectsWQOnly,
+              },
+              totalBudget: {
+                All: totalBudget,
+                AW: totalBudgetAWOnly,
+                WS: totalBudgetWSOnly,
+                WQ: totalBudgetWQOnly,
+              },
+              totalExpenseWithoutMinos: {
+                All: totalExpenseWithoutMinos,
+                AW: totalExpenseWithoutMinosAWOnly,
+                WS: totalExpenseWithoutMinosWSOnly,
+                WQ: totalExpenseWithoutMinosWQOnly,
+              },
             };
           });
           setRawData(dataFormatted);
@@ -104,25 +156,65 @@ function App() {
         },
       );
   }, []);
+  const options = [
+    {
+      key: 'All',
+      value: 'All Categories',
+    },
+    {
+      key: 'AW',
+      value: 'Access to Water',
+    },
+    {
+      key: 'WS',
+      value: 'Water Security',
+    },
+    {
+      key: 'WQ',
+      value: 'Water Quality',
+    },
+  ];
   return (
     <div className='undp-container'>
+      <p className='indp-typography label'>Filter by category</p>
+      <Select
+        className='undp-select'
+        placeholder='Please select'
+        value={filter}
+        onChange={d => {
+          setFilter(d);
+        }}
+      >
+        {options.map(d => (
+          <Select.Option className='undp-select-option' key={d.key}>
+            {d.value}
+          </Select.Option>
+        ))}
+      </Select>
       {worldShape && rawData && dataGroupedByCountry && countryTaxonomy ? (
-        <div>
+        <div className='margin-top-05'>
           <div className='stat-card-container margin-bottom-05'>
             <div className='stat-card no-hover' style={{ width: '33.33%' }}>
-              <h3>{rawData.length}</h3>
+              <h3>{rawData.filter(d => d[filter] === 'Y').length}</h3>
               <p>No. of Projects</p>
             </div>
             <div className='stat-card no-hover' style={{ width: '33.33%' }}>
-              <h3>{dataGroupedByCountry.length}</h3>
+              <h3>
+                {
+                  dataGroupedByCountry.filter(d => d.noOfProjects[filter] > 0)
+                    .length
+                }
+              </h3>
               <p>No. of countries with water related projects</p>
             </div>
             <div className='stat-card no-hover' style={{ width: '33.33%' }}>
               <h3>
-                {format('.3s')(sumBy(rawData, el => el.Budget)).replace(
-                  'G',
-                  'B',
-                )}
+                {format('.3s')(
+                  sumBy(
+                    rawData.filter(d => d[filter] === 'Y'),
+                    el => el.Budget,
+                  ),
+                ).replace('G', 'B')}
               </h3>
               <h4>US $</h4>
               <p>Total Budget</p>
@@ -132,6 +224,7 @@ function App() {
             data={dataGroupedByCountry}
             countryTaxonomy={countryTaxonomy}
             worldShape={worldShape}
+            filter={filter}
           />
         </div>
       ) : (

@@ -24,6 +24,9 @@ export interface DataType {
   Budget: string;
   'Expences from BPI': string;
   'EXPENSES without minos': string;
+  AW: 'Y' | 'N';
+  WS: 'Y' | 'N';
+  WQ: 'Y' | 'N';
 }
 
 export interface FormattedDataType {
@@ -34,6 +37,10 @@ export interface FormattedDataType {
   'Country TRANSPARENCY': string[];
   Budget: number;
   'EXPENSES without minos': number;
+  AW: 'Y' | 'N';
+  WS: 'Y' | 'N';
+  WQ: 'Y' | 'N';
+  All: 'Y';
 }
 
 export interface DataSplitByCountriesType {
@@ -44,13 +51,31 @@ export interface DataSplitByCountriesType {
   'Country TRANSPARENCY': string;
   Budget: number;
   'EXPENSES without minos': number;
+  AW: 'Y' | 'N';
+  WS: 'Y' | 'N';
+  WQ: 'Y' | 'N';
 }
 
 export interface DataGroupedByCountryType {
   country: string;
-  noOfProjects: number;
-  totalBudget: number;
-  totalExpenseWithoutMinos: number;
+  noOfProjects: {
+    All: number;
+    AW: number;
+    WS: number;
+    WQ: number;
+  };
+  totalBudget: {
+    All: number;
+    AW: number;
+    WS: number;
+    WQ: number;
+  };
+  totalExpenseWithoutMinos: {
+    All: number;
+    AW: number;
+    WS: number;
+    WQ: number;
+  };
 }
 
 export interface HoverDataType {
@@ -62,3 +87,5 @@ export interface HoverDataType {
   xPosition: number;
   yPosition: number;
 }
+
+export type CategoriesDataType = 'All' | 'WS' | 'WQ' | 'AW';

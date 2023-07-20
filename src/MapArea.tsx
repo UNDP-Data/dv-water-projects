@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 import { Select } from 'antd';
 import { useState } from 'react';
-import { CountryGroupDataType, DataGroupedByCountryType } from './Types';
+import {
+  CategoriesDataType,
+  CountryGroupDataType,
+  DataGroupedByCountryType,
+} from './Types';
 import { UnivariateMap } from './UnivariateMap';
 
 interface Props {
@@ -9,6 +13,7 @@ interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   worldShape: any;
   countryTaxonomy: CountryGroupDataType[];
+  filter: CategoriesDataType;
 }
 
 const El = styled.div`
@@ -46,7 +51,7 @@ const SettingEl = styled.div`
 `;
 
 export function MapArea(props: Props) {
-  const { data, worldShape, countryTaxonomy } = props;
+  const { data, worldShape, countryTaxonomy, filter } = props;
   const [selectedOption, setSelectedOption] = useState<
     'No. of Projects' | 'Budget'
   >('No. of Projects');
@@ -79,6 +84,7 @@ export function MapArea(props: Props) {
       </SettingEl>
       <UnivariateMap
         data={data}
+        filter={filter}
         selectedOption={selectedOption}
         worldShape={worldShape}
         countryTaxonomy={countryTaxonomy}
