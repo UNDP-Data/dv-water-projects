@@ -196,13 +196,13 @@ export function UnivariateMap(props: Props) {
                     country:
                       countryTaxonomy[
                         countryTaxonomy.findIndex(
-                          el => el['Alpha-3 code-1'] === d.country,
+                          el => el['Alpha-3 code'] === d.country,
                         )
                       ]['Country or Area'],
                     continent:
                       countryTaxonomy[
                         countryTaxonomy.findIndex(
-                          el => el['Alpha-3 code-1'] === d.country,
+                          el => el['Alpha-3 code'] === d.country,
                         )
                       ]['Group 1'],
                     noOfProjects: d.noOfProjects[filter],
@@ -217,13 +217,13 @@ export function UnivariateMap(props: Props) {
                     country:
                       countryTaxonomy[
                         countryTaxonomy.findIndex(
-                          el => el['Alpha-3 code-1'] === d.country,
+                          el => el['Alpha-3 code'] === d.country,
                         )
                       ]['Country or Area'],
                     continent:
                       countryTaxonomy[
                         countryTaxonomy.findIndex(
-                          el => el['Alpha-3 code-1'] === d.country,
+                          el => el['Alpha-3 code'] === d.country,
                         )
                       ]['Group 1'],
                     noOfProjects: d.noOfProjects[filter],
@@ -302,7 +302,7 @@ export function UnivariateMap(props: Props) {
                       countryTaxonomy.findIndex(
                         el => el['Country or Area'] === hoverData?.country,
                       )
-                    ]['Alpha-3 code-1'],
+                    ]['Alpha-3 code'],
                 )
                 .map((d: any, i: number) => (
                   <G opacity={!selectedColor ? 1 : 0} key={i}>

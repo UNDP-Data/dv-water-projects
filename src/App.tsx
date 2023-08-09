@@ -149,7 +149,7 @@ function App() {
             groupedByCountry.filter(
               d =>
                 countryTaxonomyData.findIndex(
-                  el => el['Alpha-3 code-1'] === d.country,
+                  el => el['Alpha-3 code'] === d.country,
                 ) !== -1,
             ),
           );
