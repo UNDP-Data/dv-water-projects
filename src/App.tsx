@@ -36,7 +36,7 @@ function App() {
       )
       .defer(
         csv,
-        'https://raw.githubusercontent.com/UNDP-Data/dv-water-project-data/update-data/water-related-projects.csv',
+        'https://raw.githubusercontent.com/UNDP-Data/dv-water-project-data/main/water-related-projects.csv',
       )
       .defer(
         json,
