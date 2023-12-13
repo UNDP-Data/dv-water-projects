@@ -24,7 +24,7 @@ The Production site deployed using Azure Static Web App and work flow can be fou
 Add the following div in the page
 ```
 <div id="root"></div>
-
+```
 Apart from the mentioned `div` above the following `script` and `link` needs to be added to the `head` or in the embed code
 ```
 <script defer src="https://calm-grass-0e3382b10.4.azurestaticapps.net/index.js"></script>
